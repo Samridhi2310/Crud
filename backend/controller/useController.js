@@ -35,11 +35,12 @@ exports.CheckUser=async (req, res) => {
              return res.status(401).json({ message: "Password doesnot match" });
         }
         const token = jwt.sign({ userId: user._id, userEmail:user.Email}, JWT_SECRET, { expiresIn: "10m" });
-      res.cookie("jwtToken", token, {
-        httpOnly: true, // ✅ Required for security (middleware can still read it)
-      secure: true, // ✅ Required on Vercel
-      path: "/", // ✅ Needed to be accessible across routes
-      sameSite: "lax",
+res.cookie("jwtToken", token, {
+  httpOnly: true,
+  secure: true,
+  path: "/",
+  sameSite: "none",
+  domain: "crud-green-nine.vercel.app", // Set to your root domain with a leading dot
 });
 
 
