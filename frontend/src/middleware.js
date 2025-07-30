@@ -5,6 +5,7 @@ export default function middleware(request) {
 
   const token = request.cookies.get("jwtToken");
   console.log(token)
+  
   const pathname = request.nextUrl.pathname;
 
   // ✅ Define public routes (accessible without authentication)
