@@ -44,6 +44,8 @@ exports.CheckUser=async (req, res) => {
 
 
 
+
+
         res.json({ token, message: "Login successful!",user });
     } catch (error) {
         res.status(500).json({ message: "Error logging in" });

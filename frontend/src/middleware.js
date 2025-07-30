@@ -1,35 +1,36 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers"; // For edge runtime compatibility
 
-export default function middleware(request) {
-  console.log("✅ Middleware is running!");
+export function middleware(request) {
+  const url = request.nextUrl;
+  const pathname = url.pathname;
 
-  const token = request.cookies.get("jwtToken");
-  console.log(token)
-  
-  const pathname = request.nextUrl.pathname;
+  // ✅ List of public routes (no auth required)
+  const publicRoutes = ["/", "/login", "/signup"];
 
-  // ✅ Define public routes (accessible without authentication)
-  const publicRoutes = ["/", "/login"]; 
-
-  // ✅ Allow requests for public pages and API/static files
+  // ✅ Bypass auth check for public routes, static files, or Next.js internals
   if (
-    publicRoutes.includes(pathname) || // Allow public pages
-    pathname.startsWith("/api") || // Allow API requests
-    pathname.startsWith("/_next") || // Allow Next.js assets
-    pathname.startsWith("/static") // Allow static files
+    publicRoutes.includes(pathname) ||
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/static") ||
+    pathname.endsWith(".ico")
   ) {
     return NextResponse.next();
   }
 
-  // ✅ If token is missing, redirect to login page
+  // ✅ Use `request.cookies.get()` to read cookies in middleware
+  const token = request.cookies.get("jwtToken")?.value;
+
+  // ✅ If token not found, redirect to /login
   if (!token) {
     console.log("token doesnot exist")
     return NextResponse.redirect(new URL("/login", request.url));
   }
+
   return NextResponse.next();
 }
 
-// ✅ Apply middleware to all routes dynamically except public ones
 export const config = {
-  matcher: ["/:path*"], 
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"], // Match all routes except static files
 };
