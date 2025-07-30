@@ -20,7 +20,7 @@ export default function Page() {
 
     try {
       // Step 1: Verify Token
-      const verifyToken = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/verify-token`, {
+      const verifyToken = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/verify-token`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export default function Page() {
       
 
       // Step 2: Fetch User Details
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/userDetail/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/userDetail/`, {
         method: "GET",
         headers: { 
           "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export default function Page() {
     }
     try {
       console.log(userData)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/delete/${userData?._id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/delete/${userData?._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function Page() {
     }
   };
 const handleLogOut=async ()=>{
-  const data= await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/logout`,{method:"POST",credentials:"include"}).then((res) => res.json())
+  const data= await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/logout`,{method:"POST",credentials:"include"}).then((res) => res.json())
   .then((data) => {
       localStorage.removeItem("jwtToken")
     
