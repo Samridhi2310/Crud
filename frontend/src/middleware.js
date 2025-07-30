@@ -4,6 +4,7 @@ export default function middleware(request) {
   console.log("✅ Middleware is running!");
 
   const token = request.cookies.get("jwtToken");
+  console.log(token)
   const pathname = request.nextUrl.pathname;
 
   // ✅ Define public routes (accessible without authentication)
@@ -21,6 +22,7 @@ export default function middleware(request) {
 
   // ✅ If token is missing, redirect to login page
   if (!token) {
+    console.log("token doesnot exist")
     return NextResponse.redirect(new URL("/login", request.url));
   }
   return NextResponse.next();
