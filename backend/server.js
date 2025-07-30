@@ -12,7 +12,7 @@ app.use(cors({origin:"https://crud-green-nine.vercel.app",
     credentials:true,
 }));
 
-app.use("/api", userRoutes); // ✅ Use a prefix to avoid conflicts
+app.use("/", userRoutes); // ✅ Use a prefix to avoid conflicts
 
 
 const Port = process.env.PORT
