@@ -36,9 +36,10 @@ exports.CheckUser=async (req, res) => {
         }
         const token = jwt.sign({ userId: user._id, userEmail:user.Email}, JWT_SECRET, { expiresIn: "10m" });
       res.cookie("jwtToken", token, {
-  httpOnly: false, // ⛔ Not secure for production
-  secure: true,
-  sameSite: "lax",
+        httpOnly: true, // ✅ Required for security (middleware can still read it)
+      secure: true, // ✅ Required on Vercel
+      path: "/", // ✅ Needed to be accessible across routes
+      sameSite: "lax",
 });
 
 
